@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import Button from './button'
-import App from './App'
+import Button from './app/button'
+import App from './app/App'
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import User from './User'
+import User from './app/User'
 
 class Main extends Component{
     render() {
