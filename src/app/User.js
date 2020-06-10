@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
-import fetchItems from './action.js'
+import fetchItems from '../app/redux/action/actionItem.js'
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux'
 
 class User extends Component{
  
@@ -18,7 +20,7 @@ class User extends Component{
     //     }
     // }
     componentDidMount() {
-         fetchItems();
+         this.props.fetchItems();
         // fetch('https://jsonplaceholder.typicode.com/users')
         // .then(res => res.json())
         // .then(json => {
@@ -28,16 +30,16 @@ class User extends Component{
         // })
     }
 
-    delete = (index) => {
-        const users = this.state.items;
-        users.splice(index, 1);
-        this.setState({items:users});
+    delete(index){
+        //const users = this.state.items;
+        //users.splice(index, 1);
+        //this.setState({items:users});
     };
 
     edit(index){
-        this.setState({on:true})
-        const user = this.state.items[index];
-        this.setState({currentUser: user});
+        //this.setState({on:true})
+        //const user = this.state.items[index];
+        //this.setState({currentUser: user});
     };
     
     change(event, fieldName) {
@@ -59,22 +61,23 @@ class User extends Component{
         //this.setState({currentUser: { id: '', name: '', username: '', email: ''}});
      }
 
+
     render() {
         return(
             <div>
                 <table>
-                    {this.store.getState().map((item, index) => (
+                    {this.props.items.map((item, index) => (
                         <tr>
                         <td key={item.id}>{item.id}</td>
                         <td>{item.name}</td>
                         <td>{item.username}</td>
                         <td>{item.email}</td>
-                        <td><button onClick = {this.edit.bind(this, index)}>Edit</button></td>
-                        <td><button onClick={this.delete.bind(this, index)}>Delete</button></td>
+                        <td><button>Edit</button></td>
+                        <td><button>Delete</button></td>
                         </tr>
                     ))}
                 </table>
-                {this.state.on && (
+                {/*this.state.on && (
                   <div>
                     <div>
                       <label>ID: </label>
@@ -100,9 +103,21 @@ class User extends Component{
                     Submit
                 </button>
             </div>
-)}
-                </div>
-        )}
-
-}
-export default User;
+                )*/}
+            </div>
+            )}
+        }
+        
+         const mapStateToProps = state => {
+            return {
+              items: state.items
+            }
+          }
+          
+        const  mapDispatchToProps = dispatch => {
+          return bindActionCreators({
+            fetchItems: fetchItems
+          }, dispatch)
+        }
+      
+export default connect(mapStateToProps, mapDispatchToProps)(User);

@@ -1,6 +1,3 @@
-import React, {Component} from 'react'
-import action from './action.js'
-
 const initState = {
         on:false,
         items: [],
